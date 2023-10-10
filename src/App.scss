@@ -45,6 +45,98 @@ input {
     transform: translate(-50%, -50%);
 }
 
+.bg-main-mobile {
+    width: 100%;
+    margin-bottom: 5.5rem;
+}
+
+.bg-cart-back {
+    max-width: 288px;
+    max-height: 159px;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 34px;
+    right: 17px;
+
+    .relative-block {
+        position: relative;
+    }
+
+    img {
+        max-width: 288px;
+        max-height: 159px;
+        width: 100%;
+        height: 100vh;
+    }
+
+    .cvc-on-img {
+        position: absolute;
+        top: 71px;
+        right: 36px;
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        color: var(--white);
+    }
+}
+.bg-cart-front {
+    max-width: 288px;
+    max-height: 159px;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 127px;
+    left: 17px;
+    overflow: hidden;
+
+    .relative-block {
+        position: relative;
+    }
+
+    img {
+        max-width: 288px;
+        max-height: 159px;
+        width: 100%;
+        height: 100vh;
+    }
+
+    .card-logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        max-width: 56px;
+        max-height: 32px;
+    }
+
+    .number-on-img {
+        position: absolute;
+        top: 80px;
+        left: 20px;
+        letter-spacing: 2.7px;
+        color: var(--white);
+        font-size: var(--body-copy-font-size);
+    }
+
+    .cardholder-on-img {
+        position: absolute;
+        top: 120px;
+        left: 20px;
+        color: var(--white);
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+    }
+
+    .date-on-img {
+        position: absolute;
+        top: 120px;
+        right: 20px;
+        color: var(--white);
+        font-size: 10px;
+        letter-spacing: 1.5px;
+    }
+}
+
 .form-block {
     padding: 1.5rem;
 }
