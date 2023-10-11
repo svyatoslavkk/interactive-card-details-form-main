@@ -67,14 +67,46 @@ export const CardForm = () => {
 
     const handleNumericInput = (e: any) => {
         const { name, value } = e.target;
-        const numericValue = value.replace(/\D/g, ''); 
+        const numericValue = value.replace(/\D/g, '');
 
+        if (name === 'cardNumber' && numericValue.length === 16) {
+            const expiryMonthInput = document.querySelector('input[name="expiryMonth"]') as HTMLInputElement | null;
+            if (expiryMonthInput) {
+                expiryMonthInput.focus();
+            }
+        }
+
+        if (name === 'expiryMonth' && numericValue.length === 2) {
+            const expiryYearInput = document.querySelector('input[name="expiryYear"]') as HTMLInputElement | null;
+            if (expiryYearInput) {
+                expiryYearInput.focus();
+            }
+        }
+
+        if (name === 'expiryYear' && numericValue.length === 2) {
+            const cvv = document.querySelector('input[name="cvv"]') as HTMLInputElement | null;
+            if (cvv) {
+                cvv.focus();
+            }
+        }
+    
         if (name === 'cardNumber') {
             const formattedValue = numericValue
                 .replace(/(\d{4})/g, '$1 ')
                 .trim()
                 .substring(0, 19);
-
+            setFormData({
+                ...formData,
+                [name]: formattedValue,
+            });
+        } else if (name === 'expiryMonth' || name === 'expiryYear') {
+            const formattedValue = numericValue.substring(0, 2);
+            setFormData({
+                ...formData,
+                [name]: formattedValue,
+            });
+        } else if (name === 'cvv') {
+            const formattedValue = numericValue.substring(0, 3);
             setFormData({
                 ...formData,
                 [name]: formattedValue,
