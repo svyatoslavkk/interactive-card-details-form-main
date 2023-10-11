@@ -35,44 +35,51 @@ export const CardForm = () => {
             [name]: value,
         });
 
+        let newErrors = { ...errors };
+
         if (name === 'cardHolderName') {
             if (!value) {
-                setErrors({ ...errors, cardHolderName: 'Enter cardholder name' });
+                newErrors = { ...newErrors, cardHolderName: 'Enter cardholder name' };
             } else {
-                setErrors({ ...errors, cardHolderName: '' });
+                newErrors = { ...newErrors, cardHolderName: '' };
             }
         }
-
+    
         if (name === 'cardNumber') {
             if (!/^\d{16}$/.test(value)) {
-                setErrors({ ...errors, cardNumber: 'Wrong card number' });
+                newErrors = { ...newErrors, cardNumber: 'Wrong card number' };
             } else {
-                setErrors({ ...errors, cardNumber: '' });
+                newErrors = { ...newErrors, cardNumber: '' };
             }
         }
-
+    
         if (name === 'expiryMonth') {
             if (!/^\d{2}$/.test(value) || +value < 1 || +value > 12) {
-                setErrors({ ...errors, expiryMonth: 'Wrong month' });
+                newErrors = { ...newErrors, expiryMonth: 'Wrong month' };
             } else {
-                setErrors({ ...errors, expiryMonth: '' });
+                newErrors = { ...newErrors, expiryMonth: '' };
             }
         }
-
+    
         if (name === 'expiryYear') {
             if (!/^\d{2}$/.test(value) || +value < 21) {
-                setErrors({ ...errors, expiryYear: 'Wrong year' });
+                newErrors = { ...newErrors, expiryYear: 'Wrong year' };
             } else {
-                setErrors({ ...errors, expiryYear: '' });
+                newErrors = { ...newErrors, expiryYear: '' };
+            }
+    
+            if (/^\d{2}$/.test(value) && +value >= 21) {
+                newErrors = { ...newErrors, expiryYear: '' };
             }
         }
 
         if (name === 'cvv') {
             if (!/^\d{3}$/.test(value)) {
-                setErrors({ ...errors, cvv: 'Wrong CVC' });
+                newErrors = { ...newErrors, cvv: 'Wrong CVC' };
             } else {
-                setErrors({ ...errors, cvv: '' });
+                newErrors = { ...newErrors, cvv: '' };
             }
+            setErrors(newErrors);
         }
         
         setErrors({ ...errors, [name]: '' });
@@ -140,7 +147,6 @@ export const CardForm = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-
         let hasErrors = false;
 
         for (const [name, value] of Object.entries(formData)) {
@@ -152,14 +158,16 @@ export const CardForm = () => {
                 }));
             }
         }
-
+    
         if (hasErrors) {
             setIsSubmitting(false);
             return;
         }
-
+    
         console.log('Data has been sent:', formData);
         setIsSubmitting(true);
+        
+        console.log('About to navigate to /complete');
     };
 
     return (
