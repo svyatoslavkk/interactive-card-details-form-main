@@ -1,25 +1,6 @@
 import React, { useState } from 'react';
 
-interface CardFormProps {
-    onSubmit: (formData: CardFormData) => void;
-}
-
-interface CardFormData {
-    cardHolderName: string;
-    cardNumber: string;
-    expiryMonth: string;
-    expiryYear: string;
-    cvv: string;
-}
-
 export const CardForm = () => {
-    const [formData, setFormData] = useState<CardFormData>({
-      cardHolderName: '',
-      cardNumber: '',
-      expiryMonth: '',
-      expiryYear: '',
-      cvv: '',
-    });
 
     return (
         <div>
