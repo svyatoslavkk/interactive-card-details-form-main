@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { Outlet, Link } from "react-router-dom";
 
+interface FormErrors {
+    cardHolderName: string;
+    cardNumber: string;
+    expiryMonth: string;
+    expiryYear: string;
+    cvv: string;
+}
+
 export const CardForm = () => {
     const [formData, setFormData] = useState({
         cardHolderName: '',
@@ -17,6 +25,8 @@ export const CardForm = () => {
         expiryYear: '',
         cvv: '',
     });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -64,6 +74,8 @@ export const CardForm = () => {
                 setErrors({ ...errors, cvv: '' });
             }
         }
+        
+        setErrors({ ...errors, [name]: '' });
     };
 
     const handleNumericInput = (e: any) => {
@@ -96,10 +108,10 @@ export const CardForm = () => {
                 .replace(/(\d{4})/g, '$1 ')
                 .trim()
                 .substring(0, 19);
-            setFormData({
-                ...formData,
-                [name]: formattedValue,
-            });
+                setFormData({
+                    ...formData,
+                    [name]: formattedValue,
+                });
         } else if (name === 'expiryMonth') {
             const formattedValue = numericValue.substring(0, 2);
             setFormData({
@@ -129,11 +141,25 @@ export const CardForm = () => {
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
-        if (Object.values(errors).every((error) => !error)) {
-            console.log('Data has been sent:', formData);
-        } else {
-            console.log('The form has errors. Please correct it.');
+        let hasErrors = false;
+
+        for (const [name, value] of Object.entries(formData)) {
+            if (!value) {
+                hasErrors = true;
+                setErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [name]: "Can't be blank",
+                }));
+            }
         }
+
+        if (hasErrors) {
+            setIsSubmitting(false);
+            return;
+        }
+
+        console.log('Data has been sent:', formData);
+        setIsSubmitting(true);
     };
 
     return (
@@ -149,6 +175,9 @@ export const CardForm = () => {
                             onChange={handleChange}
                             value={formData.cardHolderName}
                         />
+                        {errors.cardHolderName && (
+                            <p className='error-message'>{errors.cardHolderName}</p>
+                        )}
                     </label>
                 </div>
                 <div className='card-number-row'>
@@ -162,6 +191,9 @@ export const CardForm = () => {
                             value={formData.cardNumber}
                             inputMode="numeric"
                         />
+                        {errors.cardNumber && (
+                            <p className='error-message'>{errors.cardNumber}</p>
+                        )}
                     </label>
                 </div>
                 <div className='mm-yy-cvv-row'>
@@ -188,6 +220,9 @@ export const CardForm = () => {
                                         inputMode="numeric"
                                     />
                             </div>
+                            {(errors.expiryMonth || errors.expiryYear) && (
+                                <p className='error-message'>{errors.expiryMonth || errors.expiryYear}</p>
+                            )}
                         </label>
                     </div>
                     <div className='cvc'>
@@ -201,11 +236,14 @@ export const CardForm = () => {
                                 value={formData.cvv}
                                 inputMode="numeric"
                             />
+                            {errors.cvv && (
+                                <p className='error-message'>{errors.cvv}</p>
+                            )}
                         </label>
                     </div>
                 </div>
                 <Link to="/complete" style={{textDecoration: "none"}}>
-                    <button type="submit" className='confirm-button'>Confirm</button>
+                    <button className='confirm-button' onClick={handleSubmit}>Confirm</button>
                 </Link>
                   <div id="detail">
                       <Outlet />

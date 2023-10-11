@@ -224,6 +224,13 @@ input {
     }
 }
 
+.error-message {
+    font-size: 12px;
+    color: var(--input-error-color);
+    font-weight: var(--body-font-weight);
+    margin-top: 0.5rem;
+}
+
 @media (min-width: 1440px) {
     .bg-main-mobile {
         display: none;
