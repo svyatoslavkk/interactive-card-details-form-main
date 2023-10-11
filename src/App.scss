@@ -198,6 +198,32 @@ input {
     display: none;
 }
 
+.complete {
+    text-align: center;
+    padding: 1.5rem;
+
+    .icon-complete {
+        margin-bottom: 2rem;
+        max-width: 82px;
+        max-height: 82px;
+        width: 100%;
+        height: 100vh;
+    }
+    .header-text {
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        margin-bottom: 1rem;
+        font-size: 28px;
+    }
+    .paragraph-text {
+        margin-bottom: 3rem;
+        letter-spacing: 0.5px;
+        font-size: var(--body-copy-font-size);
+        color: var(--dark-grayish-violet);
+        font-weight: var(--body-font-weight);
+    }
+}
+
 @media (min-width: 1440px) {
     .bg-main-mobile {
         display: none;
@@ -213,6 +239,7 @@ input {
         margin-right: 25%;
     }
     .form-block {
+        padding: 0;
         width: 100%;
         max-width: 385px;
         align-items: center;
@@ -292,6 +319,10 @@ input {
             font-size: 14px;
             letter-spacing: 2px;
         }
+    }
+    .complete {
+        padding: 0;
+        min-width: 385px;
     }
 }
 

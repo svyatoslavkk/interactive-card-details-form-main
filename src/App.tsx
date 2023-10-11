@@ -7,6 +7,7 @@ import bgCartFront from './bg-card-front.png';
 import bgCartBack from './bg-card-back.png';
 import cardLogo from './card-logo.svg';
 import { CardForm } from './Components/CardForm';
+import Complete from './Components/Complete';
 
 function App() {
 
@@ -45,7 +46,7 @@ function App() {
         </div>
         <img src={bgMainDesktop} className='bg-main-desktop' alt="Background Image" />
       </div>
-      <CardForm />
+      <Complete />
     </div>
   );
 }
