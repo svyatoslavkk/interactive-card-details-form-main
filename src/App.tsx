@@ -46,7 +46,7 @@ function App() {
         </div>
         <img src={bgMainDesktop} className='bg-main-desktop' alt="Background Image" />
       </div>
-      <Complete />
+      <CardForm />
     </div>
   );
 }

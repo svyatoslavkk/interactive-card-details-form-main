@@ -1,6 +1,101 @@
 import React, { useState } from 'react';
 
 export const CardForm = () => {
+    const [formData, setFormData] = useState({
+        cardHolderName: '',
+        cardNumber: '',
+        expiryMonth: '',
+        expiryYear: '',
+        cvv: '',
+    });
+
+    const [errors, setErrors] = useState({
+        cardHolderName: '',
+        cardNumber: '',
+        expiryMonth: '',
+        expiryYear: '',
+        cvv: '',
+    });
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+
+        if (name === 'cardHolderName') {
+            if (!value) {
+                setErrors({ ...errors, cardHolderName: 'Enter cardholder name' });
+            } else {
+                setErrors({ ...errors, cardHolderName: '' });
+            }
+        }
+
+        if (name === 'cardNumber') {
+            if (!/^\d{16}$/.test(value)) {
+                setErrors({ ...errors, cardNumber: 'Wrong card number' });
+            } else {
+                setErrors({ ...errors, cardNumber: '' });
+            }
+        }
+
+        if (name === 'expiryMonth') {
+            if (!/^\d{2}$/.test(value) || +value < 1 || +value > 12) {
+                setErrors({ ...errors, expiryMonth: 'Wrong month' });
+            } else {
+                setErrors({ ...errors, expiryMonth: '' });
+            }
+        }
+
+        if (name === 'expiryYear') {
+            if (!/^\d{2}$/.test(value) || +value < 21) {
+                setErrors({ ...errors, expiryYear: 'Wrong year' });
+            } else {
+                setErrors({ ...errors, expiryYear: '' });
+            }
+        }
+
+        if (name === 'cvv') {
+            if (!/^\d{3}$/.test(value)) {
+                setErrors({ ...errors, cvv: 'Wrong CVC' });
+            } else {
+                setErrors({ ...errors, cvv: '' });
+            }
+        }
+    };
+
+    const handleNumericInput = (e: any) => {
+        const { name, value } = e.target;
+        const numericValue = value.replace(/\D/g, ''); 
+
+        if (name === 'cardNumber') {
+            const formattedValue = numericValue
+                .replace(/(\d{4})/g, '$1 ')
+                .trim()
+                .substring(0, 19);
+
+            setFormData({
+                ...formData,
+                [name]: formattedValue,
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: numericValue,
+            });
+        }
+    };
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+
+        if (Object.values(errors).every((error) => !error)) {
+            console.log('Data has been sent:', formData);
+        } else {
+            console.log('The form has errors. Please correct it.');
+        }
+    };
 
     return (
         <div>
@@ -12,6 +107,8 @@ export const CardForm = () => {
                             type="text"
                             name="cardHolderName"
                             placeholder='e.g. Jane Appleseed'
+                            onChange={handleChange}
+                            value={formData.cardHolderName}
                         />
                     </label>
                 </div>
@@ -22,6 +119,9 @@ export const CardForm = () => {
                             type="text"
                             name="cardNumber"
                             placeholder='e.g. 1234 5678 9123 0000'
+                            onChange={handleNumericInput}
+                            value={formData.cardNumber}
+                            inputMode="numeric"
                         />
                     </label>
                 </div>
@@ -35,12 +135,18 @@ export const CardForm = () => {
                                         name="expiryMonth"
                                         className='mm-input'
                                         placeholder='MM'
+                                        onChange={handleNumericInput}
+                                        value={formData.expiryMonth}
+                                        inputMode="numeric"
                                     />
                                     <input
                                         type="text"
                                         name="expiryYear"
                                         className='yy-input'
                                         placeholder='YY'
+                                        onChange={handleNumericInput}
+                                        value={formData.expiryYear}
+                                        inputMode="numeric"
                                     />
                             </div>
                         </label>
@@ -52,6 +158,9 @@ export const CardForm = () => {
                                 type="text"
                                 name="cvv"
                                 placeholder='e.g. 123'
+                                onChange={handleNumericInput}
+                                value={formData.cvv}
+                                inputMode="numeric"
                             />
                         </label>
                     </div>
