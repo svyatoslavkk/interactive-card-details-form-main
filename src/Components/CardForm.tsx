@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Outlet, Link } from "react-router-dom";
 
 export const CardForm = () => {
     const [formData, setFormData] = useState({
@@ -99,7 +100,13 @@ export const CardForm = () => {
                 ...formData,
                 [name]: formattedValue,
             });
-        } else if (name === 'expiryMonth' || name === 'expiryYear') {
+        } else if (name === 'expiryMonth') {
+            const formattedValue = numericValue.substring(0, 2);
+            setFormData({
+                ...formData,
+                [name]: formattedValue,
+            });
+        } else if (name === 'expiryYear') {
             const formattedValue = numericValue.substring(0, 2);
             setFormData({
                 ...formData,
@@ -197,7 +204,12 @@ export const CardForm = () => {
                         </label>
                     </div>
                 </div>
-                <button type="submit" className='confirm-button'>Confirm</button>
+                <Link to="/complete" style={{textDecoration: "none"}}>
+                    <button type="submit" className='confirm-button'>Confirm</button>
+                </Link>
+                  <div id="detail">
+                      <Outlet />
+                  </div>
             </form>
         </div>
     )
